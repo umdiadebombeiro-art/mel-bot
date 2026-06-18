@@ -1,4 +1,4 @@
-# Instagram @sargentomellocasal → Telegram (seguro, 100% grátis)
+# Instagram @mel → Telegram (seguro, 100% grátis)
 
 Posta normal, com 3 travas anti-ban:
 - roda a cada 30 min
