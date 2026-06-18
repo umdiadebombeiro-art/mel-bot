@@ -1,20 +1,32 @@
-name: Instagram to Telegram
+name: Atualiza RSS
 
 on:
   schedule:
-    - cron: '*/30 * * * *'
-  workflow_dispatch:
+    - cron: '0 */3 * * *' # roda a cada 3h, ajuste se quiser
+  workflow_dispatch: # permite rodar manual
 
 jobs:
-  run:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - name: Checkout
+        uses: actions/checkout@v4 # era @v3 → agora @v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5 # era @v4 → agora @v5
         with:
           python-version: '3.11'
-      - run: pip install feedparser requests
-      - run: python send.py
-        env:
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          CHAT_ID: ${{ secrets.CHAT_ID }}
+          cache: 'pip'
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Gerar RSS
+        run: python gerar_rss.py
+
+      - name: Commit do RSS
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: atualiza feed RSS"
+          file_pattern: "*.xml"
